@@ -2,7 +2,6 @@
 layout: post
 title:  openresty
 date:   2017-02-19 09:12:08 +0800
-categories: jekyll update
 ---
 
 # openresty 笔记
@@ -30,7 +29,7 @@ $ yum install readline-devel pcre-devel openssl-devel perl gcc lua luajit perl-D
 ```
 $ wget https://openresty.org/download/openresty-1.11.2.2.tar.gz
 $ tar -zxvf openresty-1.11.2.2.tar.gz
-$ ./configure --with-luajit
+$ ./configure --with-luajit --without-lua51
 $ gmake
 $ gmake install
 ```
@@ -127,3 +126,16 @@ content_by_lua_block {
     ngx.say('success!')
 }
 ```
+
+## 注意
+
+### lua 只能使用 5.1
+
+> Why can't I use Lua 5.2 or later?
+Lua 5.2+ are incompatible with Lua 5.1 on both the C API land and the Lua land (including various language semantics). If as you said there are quite a few people already using ngx_lua + Lua 5.1, then linking against Lua 5.2+ will probably break these people's existing Lua code. Lua 5.2+ are essentially incompatible different languages.
+
+> Supporting Lua 5.2+ requires nontrivial architectural changes in ngx_lua's basic infrastructure. The most troublesome thing is the quite different "environments" model in Lua 5.2+. At this point, we would hold back adding support for Lua 5.2+ to ngx_lua. Also, we do not want to create confusions and incompatibilities on the Lua land for applications running atop ngx_lua, as well as all the existing lua-resty-* libraries written in the Lua 5.1 language.
+
+> We believe it is better to stick with one Lua language in ngx_lua. Chasing the Lua language's version number has not many practical technical merits (if there were some political ones).
+
+`lua` 自己的版本虽然是小版本变动(**5.1** ~ **5.3**), 实际上变动非常大, 不兼容（可以理解为 **lua5.2** 是一门新的语法)。官方也考虑到兼容性问题, 建议使用 **lua5.1**, 而且，所有的 `openresty` 的扩展都是使用 **lua5.1** 的语法写的。
