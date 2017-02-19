@@ -107,21 +107,23 @@ $ nginx -p ~/openresty-test
 #### ngixn 配置中使用
 
 ```nginx
- content_by_lua_block {
-	local args = ngx.req.get_uri_args()
-	local redis = require "resty.redis"
-	local red = redis:new()
-	red:set_timeout(1000) -- 1 sec
-	local ok, err = red:connect('127.0.0.1', 6379)
-	if not ok then
-	    ngx.say('fail to connect:', err)
-	    return
-	end
-	ok, err = red:set(args.a, args.b)
-	if not ok then
-	    ngx.say('set error: ', err)
-	end
+content_by_lua_block {
+    local args = ngx.req.get_uri_args()
+    local redis = require "resty.redis"
+    local red = redis:new()
+    red:set_timeout(1000) -- 1 sec
+    local ok, err = red:connect('127.0.0.1', 6379)
+    if not ok then
+        ngx.say('fail to connect:', err)
+        return
+    end
 
-	ngx.say('success!')
+    ok, err = red:set(args.a, args.b)
+    
+    if not ok then
+        ngx.say('set error: ', err)
+    end
+
+    ngx.say('success!')
 }
 ```
