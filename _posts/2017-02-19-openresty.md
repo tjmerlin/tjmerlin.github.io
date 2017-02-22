@@ -29,6 +29,7 @@ $ yum install readline-devel pcre-devel openssl-devel perl gcc lua luajit perl-D
 ```
 $ wget https://openresty.org/download/openresty-1.11.2.2.tar.gz
 $ tar -zxvf openresty-1.11.2.2.tar.gz
+$ cd openresty-1.11.2.2
 $ ./configure --with-luajit --without-lua51
 $ gmake
 $ gmake install
