@@ -10,9 +10,9 @@ date:   2017-02-23 19:12:08 +0800
 
 ## firewalld 和 iptables 的区别
 
-实际上, `firewalld` 和 `iptables` 都是上层的配置, 都是对 `netfilter` 的不同形式的封装。归根结底还是发送命令给 Linux Kernel 的 `netfilter`，让其对不同类型、端口、目标、请求等等形式的包进行处理。
+实际上, `firewalld` 和 `iptables` 都是上层的配置, 都是 `netfilter` 的不同形式的封装。归根结底还是发送命令给 Linux Kernel 的 `netfilter`，让其对不同类型、端口、目标、请求等等形式的包进行处理。
 
-实际上，你也可以卸载 `firewall` 重新安装  `iptables` 来管理防火墙。
+实际上，你也可以卸载 `firewalld` 重新安装  `iptables` 来管理防火墙。
 
 ## firewalld 简单使用
 
@@ -45,4 +45,38 @@ $ sudo systemctl stop firewalld.service
 | 内部区域（internal）| 信任网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接 |
 | 外部区域（external）| 不相信网络上的其他计算机，不会损害你的计算机。只有选择接受传入的网络连接 |
 
+不同的网卡我们可以设置不同的 `zone`, 如下:
 
+```
+$ sudo firewall-cmd --zone=public --change-interface=eth0
+# 我们给 eth0 这个 interface 设置 zone 为 public
+
+$ sudo firewall-cmd --get-zone-of-interface=eth0
+public
+# 反馈为 public 这个 zone
+```
+
+### zone 上的操作
+
+#### 增加、删除、查看端口（或服务）
+
+```
+$ sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent
+success 
+# 给 public 这个 zone 上创建一个 tcp 类型端口号为 8080 的访问规则（允许访问），并且设置该规则长久有效.
+# success 表示生效
+
+$ sudo firewall-cmd --zone=public --remove-port=8080/tcp --permanent
+success
+# 删除 public 这个 zone 上的一个 tcp 类型端口号为 8080 的访问规则（以后不允许了），如果该规则为长期有效，那么把它从长期有效中删除
+# success 表示生效
+
+$ sudo firewall-cmd --zone=public --query-port=8080/tcp --permanent
+yes
+# 检查 public 这个 zone 上是否有一个长期有效的端口号为  8080 协议为 tcp 的端口访问规则。
+# yes 表示有，no 表示没有
+```
+
+如果是 **服务**(service) ， 那么如上命令的 `port` 全部修改为 `service` 即可。
+
+**注意**， 为了让如上命令生效，如要执行 `firewall-cmd --reload`。
