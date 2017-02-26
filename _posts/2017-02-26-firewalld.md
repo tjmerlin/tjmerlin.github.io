@@ -80,3 +80,26 @@ yes
 如果是 **服务**(service) ， 那么如上命令的 `port` 全部修改为 `service` 即可。
 
 **注意**， 为了让如上命令生效，如要执行 `firewall-cmd --reload`。
+
+#### 查看 zone 上所有的端口和服务
+
+我们针对一个端口或者服务是否在某个 zone 上有访问权限，可以使用如上 “增加、删除、查看端口（或者服务）“ 中所述的方法。
+
+如果要查看某个 zone 上所有的端口、服务，可使用如下命令：
+
+```
+$ sudo firewall-cmd --zone=public --list-port
+$ sudo firewall-cmd --zone=public --list-service
+$ sudo firewall-cmd --zone=public --list-all
+```
+
+## 最后
+
+如果我们开启按照如上配置规则，设置了某个端口可以访问，但是我们不清楚是否该配置是否生效（比如，我们忘记 `firewall-cmd --reload` 了, 配置规则被另外一个人或者服务使用 `iptables` 重写了），我们可以使用如下命令查看被 BLOCK 的请求
+
+```
+# 开启
+$ sudo firewall-cmd --set-log-denined=all
+# 关闭
+$ sudo firewall-cmd --set-log-denied=off
+```
