@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  firewalls
+title:  firewalld
 date:   2017-02-23 19:12:08 +0800
 ---
 
