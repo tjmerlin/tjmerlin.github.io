@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>type switch - tjmerlin</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">tjmerlin</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">type switch</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1685673593596"
+                  >2023-06-02 10:39</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1685678462807"
+                  >2023-06-02 12:01</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><p>针对 <code>interface{}</code> 类型的变量，我们需要针对这个变量真实的类型进行转换、处理，则可使用 <code>type switch</code> 进行进行判断、处理，如下：</p>
+<div><pre class="hljs"><code><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> (
+    <span class="hljs-string">"fmt"</span>
+)
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+    <span class="hljs-keyword">var</span> i <span class="hljs-keyword">int</span>
+    fmt.Println(checkType(i))
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">checkType</span><span class="hljs-params">(i <span class="hljs-keyword">interface</span>{})</span> <span class="hljs-title">string</span></span> {
+    <span class="hljs-comment">// i 参数为 interface{}, 可以传递任意类型</span>
+    
+    <span class="hljs-comment">// 通过 switch type 的形式，来进行类型判断</span>
+    <span class="hljs-comment">// 用于针对变量类型不确定情况下，按照不同类型进行对应不同行为处理的场景</span>
+    <span class="hljs-keyword">switch</span> i.(<span class="hljs-keyword">type</span>) {
+    <span class="hljs-keyword">case</span> <span class="hljs-keyword">string</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"string"</span>	
+    <span class="hljs-keyword">case</span> <span class="hljs-keyword">int</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"int"</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-keyword">bool</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"bool"</span>
+    <span class="hljs-keyword">default</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"unknown"</span>
+    }
+}</code></pre></div>
+<hr />
+<p>针对已知类型，可直接使用 <code>i.(类型)</code> 进行转换，例如：</p>
+<div><pre class="hljs"><code><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> (
+    <span class="hljs-string">"fmt"</span>
+)
+
+<span class="hljs-keyword">type</span> I <span class="hljs-keyword">interface</span> {
+    SayName() <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span> {
+    Name <span class="hljs-keyword">string</span>
+}
+
+<span class="hljs-comment">// User 实现了 I 接口</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u User)</span> <span class="hljs-title">SayName</span><span class="hljs-params">()</span> <span class="hljs-title">string</span></span> {
+    <span class="hljs-keyword">return</span> u.Name
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(u User)</span> <span class="hljs-title">SayHello</span><span class="hljs-params">()</span></span> {
+    fmt.Println(<span class="hljs-string">"hello"</span>)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {
+    <span class="hljs-comment">// 此时 i 类型是 I</span>
+    <span class="hljs-keyword">var</span> i I = User{
+        Name: <span class="hljs-string">"user"</span>,
+    }
+
+    call(i) <span class="hljs-comment">// 正常输入，因为 i 实现了 I 接口</span>
+
+    <span class="hljs-comment">// i.SayHello() // 直接执行 i.SayHello() 报错，因为 I 接口无 SayHello() 方法</span>
+
+    <span class="hljs-comment">// 使用 变量.(类型) 进行转换后，b 类型为 User{}, 可进行 SayHello()</span>
+    b := i.(User)
+
+    b.SayHello()
+    
+    i = i.(User)
+    i.SayHello() <span class="hljs-comment">// 也会报错，因为 i 的类型最开始就已经限定了是 I</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">call</span><span class="hljs-params">(i I)</span></span> {
+    fmt.Println(i.SayName())
+}
+</code></pre></div>
+</div>
+      </article>
+    </div>
+  </body>
+</html>
