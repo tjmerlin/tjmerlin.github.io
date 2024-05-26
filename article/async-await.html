@@ -1,40 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-    <channel>
-        <title></title>
-        <link>undefined</link>
-        <description>undefined</description>
-        <lastBuildDate>Sun, 26 May 2024 13:10:20 GMT</lastBuildDate>
-        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
-        <generator>Joplin Pages Publisher</generator>
-        <item>
-            <title><![CDATA[pyenv]]></title>
-            <guid>5851f365c51f4663aab547992ef4e9dc</guid>
-            <pubDate>Mon, 28 Nov 2022 02:26:49 GMT</pubDate>
-            <content:encoded><![CDATA[<h2 id="pyenv">pyenv</h2>
-<p>!!! note 简述<br />
-<code>pyenv</code> 就是 python 语言的多版本管理工具，类似于 <a title="https://www.npmjs.com/package/n" href="https://www.npmjs.com/package/n">Node.js 的 <code>n</code></a>。<br />
-!!!</p>
-<h3 id="安装-pyenv">安装 pyenv</h3>
-<div><pre class="hljs"><code><span class="hljs-meta">
-$ </span><span class="language-bash">brew install pyenv</span>
-<span class="hljs-meta">$ </span><span class="language-bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">'export PYENV_ROOT="$HOME/.pyenv"'</span> &gt;&gt; ~/.bash_profile</span>
-<span class="hljs-meta">$ </span><span class="language-bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">'export PATH="$PYENV_ROOT/bin:$PATH"'</span> &gt;&gt; ~/.bash_profile</span>
-<span class="hljs-meta">$ </span><span class="language-bash"><span class="hljs-built_in">echo</span> -e <span class="hljs-string">'if command -v pyenv 1&gt;/dev/null 2&gt;&amp;1; then\n  eval "$(pyenv init -)"\nfi'</span> &gt;&gt; ~/.bash_profile</span>
-<span class="hljs-meta">
-$ </span><span class="language-bash">bash <span class="hljs-comment"># .bash_profile 生效</span></span></code></pre></div>
-<h3 id="安装需要版本的-python">安装需要版本的 Python</h3>
-<div><pre class="hljs"><code>安装需要版本的 python
-<span class="hljs-meta">$ </span><span class="language-bash">pyenv install 3.6.4</span></code></pre></div>
-<h3 id="激活已安装的-python">激活已安装的 Python</h3>
-<div><pre class="hljs"><code><span class="hljs-meta">$ </span><span class="language-bash">pyenv <span class="hljs-built_in">local</span> 3.6.4</span></code></pre></div>
-]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[async / await]]></title>
-            <guid>edb2b1ba32ef469896edbf2eeebe9171</guid>
-            <pubDate>Sun, 27 Nov 2022 13:50:30 GMT</pubDate>
-            <content:encoded><![CDATA[<h2 id="async-await">async / await</h2>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<link rel="stylesheet" href="/_assets/main.css" />
+
+    <title>async / await - tjmerlin</title>
+  <link rel="stylesheet" href="/_markdown_plugin_assets/highlight.js/atom-one-light.css" /></head>
+  <body>
+    <div class="main">
+      <nav class="navigation">
+        <a href="/">tjmerlin</a>
+      </nav>
+      <article>
+        <header>
+          <h1 class="article-title">async / await</h1>
+          <div class="article-info">
+            <div>
+              <span
+                >Created At：<time datetime="1669557030031"
+                  >2022-11-27 21:50</time
+                ></span
+              >
+              <span
+                >Updated At：<time datetime="1669557972356"
+                  >2022-11-27 22:06</time
+                ></span
+              >
+            </div>
+            
+          </div>
+        </header>
+        <div class="article-content markdown-body"><h2 id="async-await">async / await</h2>
 <blockquote>
 <p><code>async</code> / <code>await</code> 是未来，<code>@asyncio.coroutine</code> / <code>yield from</code> 是历史。</p>
 </blockquote>
@@ -87,7 +85,8 @@ loop = asyncio.get_event_loop()
 loop.run_until_complete(r())
 loop.close()</code></pre></div>
 <p>在 <code>Python3.8</code> 中会提示 <code>@coroutine" decorator is deprecated</code>。Python3.8 开始，废弃掉了 <code>@asyncio.coroutine</code> 写法。</p>
-]]></content:encoded>
-        </item>
-    </channel>
-</rss>
+</div>
+      </article>
+    </div>
+  </body>
+</html>
